@@ -3,6 +3,7 @@ import Footer from "./Footer";
 import GettingThere from "./GettingThere";
 import Glance from "./Glance";
 import Hero from "./Hero";
+import Lunch from "./Lunch";
 import Rooms from "./Rooms";
 import Schedule from "./Schedule";
 import SessionDetail from "./SessionDetail";
@@ -52,6 +53,7 @@ export default function App() {
       <main>
         <Glance sessions={schedule} tracks={tracks} />
         <GettingThere />
+        <Lunch />
         <ViewSwitch view={view} agendaCount={starred.size} onChoose={setView} />
         {view === "rooms" ? (
           <Rooms sessions={schedule} tracks={tracks} onOpen={onOpen} />

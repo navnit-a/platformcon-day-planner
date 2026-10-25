@@ -1360,6 +1360,84 @@ button {
   }
 }
 
+.lunch {
+  padding-bottom: 20px;
+}
+
+.lunch-card {
+  padding: 16px;
+  border: 1px solid var(--hairline);
+  border-radius: 16px;
+  background: var(--surface);
+}
+
+.lunch-title {
+  margin: 0 0 12px;
+  color: var(--ink);
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.lunch-map {
+  height: 220px;
+  border-radius: 8px;
+  border: 1px solid var(--hairline);
+  background: var(--surface-muted);
+}
+
+.lunch-pin {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--surface);
+}
+
+.lunch-pin-venue {
+  background: var(--ink);
+}
+
+.lunch-pin-spot {
+  background: var(--accent);
+}
+
+.lunch-credit,
+.lunch-source,
+.lunch-empty {
+  margin: 8px 0 0;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.lunch-list {
+  display: grid;
+  gap: 12px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lunch-item {
+  display: grid;
+  gap: 4px;
+  padding-top: 12px;
+  border-top: 1px solid var(--hairline);
+}
+
+.lunch-name {
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.lunch-meta {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.lunch-distance {
+  font-variant-numeric: tabular-nums;
+}
+
 .getting {
   margin-top: 16px;
 }

@@ -19,7 +19,9 @@ test("choosing Rooms replaces the schedule with the room guide", async () => {
 
 test("shows each room as a heading and leaves Social out", async () => {
   await openRooms();
-  const headings = screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent);
+  const headings = within(screen.getByRole("region", { name: "Rooms" }))
+    .getAllByRole("heading", { level: 2 })
+    .map((h) => h.textContent);
   expect(headings).toEqual(rooms);
 });
 

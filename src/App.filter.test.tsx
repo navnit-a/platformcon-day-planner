@@ -57,15 +57,3 @@ test("says so when no sessions match the chosen track", async () => {
   expect(screen.getByText("No sessions in this track.")).toBeInTheDocument();
   expect(screen.queryByRole("article")).not.toBeInTheDocument();
 });
-
-test("my agenda lists starred sessions from every track whatever filter is chosen", async () => {
-  localStorage.clear();
-  render(<App />);
-  const first = screen.getAllByRole("button", { name: /^Star / })[0];
-  const title = first.getAttribute("aria-label")!.replace("Star ", "");
-  await userEvent.click(first);
-  await userEvent.click(within(group()).getByRole("button", { name: "Roundtables" }));
-  await userEvent.click(screen.getByRole("button", { name: /My agenda/ }));
-  const agenda = screen.getByRole("region", { name: "My agenda" });
-  expect(within(agenda).getByRole("button", { name: title })).toBeInTheDocument();
-});

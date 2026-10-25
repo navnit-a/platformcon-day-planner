@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import type { Session } from "./schedule";
+import type { Session } from "./sessions";
 
 const KEY = "platformcon-starred";
 

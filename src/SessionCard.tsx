@@ -6,20 +6,24 @@ import type { Tint } from "./tints";
 type Props = {
   session: Session;
   tint: Tint;
+  featured: boolean;
   onOpen: (session: Session, opener: HTMLButtonElement) => void;
 };
 
-export default function SessionCard({ session, tint, onOpen }: Props) {
+export default function SessionCard({ session, tint, featured, onOpen }: Props) {
   const people = speakerPeople(session.speakers);
   return (
-    <article className="session" data-tint={tint}>
+    <article className={featured ? "session session-featured" : "session"} data-tint={tint}>
       <time className="visually-hidden">{session.time}</time>
-      {session.track && (
-        <span className="room">
-          <span className="dot" aria-hidden="true" />
-          {session.track}
-        </span>
-      )}
+      <div className="session-tags">
+        {session.track && (
+          <span className="room">
+            <span className="dot" aria-hidden="true" />
+            {session.track}
+          </span>
+        )}
+        {featured && <span className="featured-label">Opens the day</span>}
+      </div>
       <h2 className="session-title">
         <button
           type="button"

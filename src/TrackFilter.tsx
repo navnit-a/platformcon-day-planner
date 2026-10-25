@@ -9,7 +9,7 @@ type Props = {
 
 export default function TrackFilter({ tracks, chosen, onChoose, onClear }: Props) {
   return (
-    <div className="filter-bar rise rise-3">
+    <div className="filter-bar rise rise-5">
       <div className="filter-bar-inner shell">
         <div className="filters" role="group" aria-label="Filter by track">
           {tracks.map((track) => (

@@ -1,14 +1,17 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import Footer from "./Footer";
+import Glance from "./Glance";
 import Hero from "./Hero";
 import Schedule from "./Schedule";
 import SessionDetail from "./SessionDetail";
 import { loadSchedule, type Session } from "./sessions";
+import { dayStats } from "./stats";
 import { applyTheme, initialTheme, saveTheme, type Theme } from "./theme";
 import { trackTint } from "./tints";
 
 const schedule = loadSchedule();
 const tracks = [...new Set(schedule.map((s) => s.track))];
+const stats = dayStats(schedule);
 
 export default function App() {
   const [open, setOpen] = useState<Session | null>(null);
@@ -32,8 +35,9 @@ export default function App() {
 
   return (
     <>
-      <Hero sessionCount={schedule.length} theme={theme} onToggleTheme={toggleTheme} />
+      <Hero stats={stats} theme={theme} onToggleTheme={toggleTheme} />
       <main>
+        <Glance sessions={schedule} tracks={tracks} />
         <Schedule
           sessions={schedule}
           tracks={tracks}

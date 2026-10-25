@@ -1,36 +1,36 @@
 {
-  "updated": "2026-10-26T06:15:00+11:00",
+  "updated": "2026-10-26T06:21:00+11:00",
   "place": "Sydney Masonic Centre",
   "picks": [
     {
-      "name": "Mamak",
+      "name": "Masala Kitchen",
       "kind": "restaurant",
-      "cuisine": "malaysian",
-      "distance_m": 54,
-      "street": "Goulburn Street",
-      "lat": -33.8777175,
-      "lon": 151.2042284,
-      "reason": "roti and curry, a Sydney favourite"
+      "cuisine": "",
+      "distance_m": 48,
+      "street": "",
+      "lat": -33.8777188,
+      "lon": 151.2074669,
+      "reason": "the closest sit-down meal"
     },
     {
-      "name": "Hansang Haymarket",
-      "kind": "restaurant",
-      "cuisine": "korean",
-      "distance_m": 53,
-      "street": "Goulburn Street",
-      "lat": -33.8778186,
-      "lon": 151.2053062,
-      "reason": "a hot Korean sit-down lunch"
-    },
-    {
-      "name": "The Moment Bubble Tea",
+      "name": "Boon Cafe",
       "kind": "cafe",
-      "cuisine": "bubble_tea",
-      "distance_m": 23,
-      "street": "Sussex Street",
-      "lat": -33.8773915,
-      "lon": 151.2047847,
-      "reason": "closest, a quick drink between talks"
+      "cuisine": "thai",
+      "distance_m": 87,
+      "street": "",
+      "lat": -33.8787218,
+      "lon": 151.2071202,
+      "reason": "a quick Thai lunch"
+    },
+    {
+      "name": "caffe tiamo",
+      "kind": "cafe",
+      "cuisine": "",
+      "distance_m": 77,
+      "street": "",
+      "lat": -33.8774081,
+      "lon": 151.2077934,
+      "reason": "coffee and something light between talks"
     }
   ],
   "attribution": "Data: OpenStreetMap contributors, ODbL"

@@ -1,7 +1,88 @@
 {
-  "updated": "2026-10-26T06:21:00+11:00",
-  "status": "normal",
-  "lines": [],
-  "more": 0,
+  "updated": "2026-10-25T20:00:01+00:00",
+  "status": "disruptions",
+  "lines": [
+    {
+      "line": "T1 North Shore & Western Line",
+      "summary": "Leppington & Inner West Line, Liverpool & Inner West Line, Western Line"
+    },
+    {
+      "line": "T1 North Shore & Western Line",
+      "summary": "North Shore Line, Northern Line"
+    },
+    {
+      "line": "T1 North Shore & Western Line",
+      "summary": "T1 North Shore Line: Buses replace trains between Hornsby and Milsons Point. Use metro services between Chatswood and the City"
+    },
+    {
+      "line": "T2 Leppington & Inner West Line",
+      "summary": "Leppington & Inner West Line, Liverpool & Inner West Line, Western Line"
+    },
+    {
+      "line": "T3 Liverpool & Inner West Line",
+      "summary": "Leppington & Inner West Line, Liverpool & Inner West Line, Western Line"
+    },
+    {
+      "line": "T8 Airport & South Line",
+      "summary": "Airport & South Line"
+    },
+    {
+      "line": "T9 Northern Line",
+      "summary": "North Shore Line, Northern Line"
+    },
+    {
+      "line": "T9 Northern Line",
+      "summary": "Trains run between Berowra or Hornsby and Central, platforms 1-14"
+    },
+    {
+      "line": "Hunter Line",
+      "summary": "Buses replace some trains"
+    },
+    {
+      "line": "Regional Trains and Coaches Network 31",
+      "summary": "Train service delays at Broadmeadow Station"
+    },
+    {
+      "line": "Regional Trains and Coaches Network 32",
+      "summary": "Brisbane to Sydney XPT service delay for Monday 26th October."
+    },
+    {
+      "line": "Regional Trains and Coaches Network 34",
+      "summary": "Train service delays at Casino Station"
+    },
+    {
+      "line": "Regional Trains and Coaches Network 445",
+      "summary": "445/446 Broken Hill Xplorer services - Blayney Station"
+    },
+    {
+      "line": "Regional Trains and Coaches Network 446",
+      "summary": "445/446 Broken Hill Xplorer services - Blayney Station"
+    },
+    {
+      "line": "Regional Trains and Coaches Network 621",
+      "summary": "Train service delays between Albury Station and Central Station"
+    },
+    {
+      "line": "Southern Highlands Line",
+      "summary": "Allow extra travel time"
+    },
+    {
+      "line": "Blue Mountains Line",
+      "summary": "Opal can be used between Bathurst and Lithgow Stations when booked"
+    },
+    {
+      "line": "Blue Mountains Line",
+      "summary": "Some services on this line may not be wheelchair accessible."
+    },
+    {
+      "line": "Central Coast & Newcastle Line",
+      "summary": "Some services on this line may not be wheelchair accessible."
+    },
+    {
+      "line": "Regional Trains and Coaches Network 223",
+      "summary": "<a href=\"https://transportnsw.info/regional-bookings/\" target=\"_blank\">Book your seat with NSW TrainLink</a>"
+    }
+  ],
+  "more": 64,
   "attribution": "Data: Transport for NSW Open Data, CC BY 4.0"
 }

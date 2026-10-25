@@ -1,5 +1,6 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import Footer from "./Footer";
+import GettingThere from "./GettingThere";
 import Glance from "./Glance";
 import Hero from "./Hero";
 import Rooms from "./Rooms";
@@ -50,6 +51,7 @@ export default function App() {
       <Hero stats={stats} theme={theme} onToggleTheme={toggleTheme} />
       <main>
         <Glance sessions={schedule} tracks={tracks} />
+        <GettingThere />
         <ViewSwitch view={view} agendaCount={starred.size} onChoose={setView} />
         {view === "rooms" ? (
           <Rooms sessions={schedule} tracks={tracks} onOpen={onOpen} />

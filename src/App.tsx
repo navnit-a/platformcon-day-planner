@@ -1,8 +1,11 @@
 import { useLayoutEffect, useRef, useState } from "react";
-import { loadSchedule, type Session } from "./schedule";
+import Footer from "./Footer";
+import Hero from "./Hero";
 import Schedule from "./Schedule";
 import SessionDetail from "./SessionDetail";
+import { loadSchedule, type Session } from "./sessions";
 import { applyTheme, initialTheme, saveTheme, type Theme } from "./theme";
+import { trackTint } from "./tints";
 
 const schedule = loadSchedule();
 const tracks = [...new Set(schedule.map((s) => s.track))];
@@ -28,26 +31,22 @@ export default function App() {
   };
 
   return (
-    <main className="page">
-      <header className="page-header">
-        <h1>PlatformCon Day Planner</h1>
-        <p className="muted">Wednesday 28 October 2026, Sydney Masonic Centre</p>
-        <p className="muted">
-          {schedule.length} {schedule.length === 1 ? "session" : "sessions"}
-        </p>
-        <button type="button" className="pill theme-toggle" onClick={toggleTheme}>
-          {`Switch to ${theme === "dark" ? "light" : "dark"} look`}
-        </button>
-      </header>
-      <Schedule
-        sessions={schedule}
-        tracks={tracks}
-        onOpen={(session, button) => {
-          opener.current = button;
-          setOpen(session);
-        }}
-      />
-      {open && <SessionDetail session={open} onClose={close} />}
-    </main>
+    <>
+      <Hero sessionCount={schedule.length} theme={theme} onToggleTheme={toggleTheme} />
+      <main>
+        <Schedule
+          sessions={schedule}
+          tracks={tracks}
+          onOpen={(session, button) => {
+            opener.current = button;
+            setOpen(session);
+          }}
+        />
+      </main>
+      <Footer />
+      {open && (
+        <SessionDetail session={open} tint={trackTint(open.track, tracks)} onClose={close} />
+      )}
+    </>
   );
 }

@@ -460,6 +460,9 @@ button {
 
 .venue-map-canvas {
   height: 220px;
+}
+
+.venue-map .venue-map-canvas {
   background: var(--surface-muted);
 }
 
@@ -470,7 +473,7 @@ button {
   font-size: 12px;
 }
 
-.venue-map .leaflet-bar a {
+.venue-map .leaflet-control-zoom.leaflet-bar a {
   width: 44px;
   height: 44px;
   line-height: 44px;

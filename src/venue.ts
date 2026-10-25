@@ -1,4 +1,4 @@
-export type Station = { name: string; lines: string[]; walkMinutes: number };
+export type Station = { name: string; lines: readonly string[]; walkMinutes: number };
 
 export const VENUE = {
   name: "Sydney Masonic Centre",

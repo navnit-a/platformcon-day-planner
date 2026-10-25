@@ -12,6 +12,10 @@ vi.mock("leaflet", () => {
       tileLayer: vi.fn(() => ({ addTo: vi.fn() })),
       circleMarker: vi.fn(() => ({ addTo: vi.fn(), bindTooltip: vi.fn().mockReturnThis() })),
       latLngBounds: vi.fn(() => ({})),
+      layerGroup: vi.fn(() => {
+        const group = { addTo: vi.fn(() => group), clearLayers: vi.fn() };
+        return group;
+      }),
     },
   };
 });
@@ -23,6 +27,10 @@ const PINS = [
 
 const createdMap = () => {
   return vi.mocked(L.map).mock.results[0].value;
+};
+
+const pinLayer = () => {
+  return vi.mocked(L.layerGroup).mock.results[0].value;
 };
 
 beforeEach(() => {
@@ -86,7 +94,10 @@ test("VenueMap fits every pin in view with room around them", () => {
     [1, 2],
     [1.1, 2.1],
   ]);
-  expect(createdMap().fitBounds).toHaveBeenCalledWith(expect.anything(), { padding: [24, 24] });
+  expect(createdMap().fitBounds).toHaveBeenCalledWith(expect.anything(), {
+    padding: [24, 24],
+    maxZoom: 17,
+  });
 });
 
 test("VenueMap centres on the venue when there are no pins", () => {
@@ -104,4 +115,40 @@ test("VenueMap removes the map on unmount", () => {
   const { unmount } = render(<VenueMap pins={[]} />);
   unmount();
   expect(createdMap().remove).toHaveBeenCalled();
+});
+
+test("VenueMap keeps its map and markers when given an equal new list of pins", () => {
+  const { rerender } = render(<VenueMap pins={PINS} />);
+  rerender(<VenueMap pins={PINS.map((pin) => ({ ...pin }))} />);
+  expect(L.map).toHaveBeenCalledTimes(1);
+  expect(L.circleMarker).toHaveBeenCalledTimes(2);
+});
+
+test("VenueMap redraws the markers on the same map when a pin changes", () => {
+  const { rerender } = render(<VenueMap pins={PINS} />);
+  rerender(<VenueMap pins={[PINS[0], { ...PINS[1], name: "Deli" }]} />);
+  expect(L.map).toHaveBeenCalledTimes(1);
+  expect(pinLayer().clearLayers).toHaveBeenCalled();
+  expect(L.circleMarker).toHaveBeenCalledTimes(4);
+  expect(vi.mocked(L.circleMarker).mock.results[2].value.addTo).toHaveBeenCalledWith(pinLayer());
+});
+
+test("VenueMap names the venue and counts the lunch spots for screen readers", () => {
+  const lunch = { name: "Deli", lat: 1.2, lon: 2.2, kind: "lunch" as const };
+  render(<VenueMap pins={[...PINS, lunch, { ...lunch, name: "Bar" }]} />);
+  expect(
+    screen.getByRole("img", { name: "Map of Sydney Masonic Centre and 3 lunch spots" }),
+  ).toBeInTheDocument();
+});
+
+test("VenueMap counts a single lunch spot in the singular", () => {
+  render(<VenueMap pins={PINS} />);
+  expect(
+    screen.getByRole("img", { name: "Map of Sydney Masonic Centre and 1 lunch spot" }),
+  ).toBeInTheDocument();
+});
+
+test("VenueMap names only the venue when there are no lunch spots", () => {
+  render(<VenueMap pins={[]} />);
+  expect(screen.getByRole("img", { name: "Map of Sydney Masonic Centre" })).toBeInTheDocument();
 });

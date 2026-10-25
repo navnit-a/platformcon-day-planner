@@ -1,9 +1,11 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { loadSchedule, type Session } from "./schedule";
+import Schedule from "./Schedule";
 import SessionDetail from "./SessionDetail";
 import { applyTheme, initialTheme, saveTheme, type Theme } from "./theme";
 
 const schedule = loadSchedule();
+const tracks = [...new Set(schedule.map((s) => s.track))];
 
 export default function App() {
   const [open, setOpen] = useState<Session | null>(null);
@@ -37,29 +39,14 @@ export default function App() {
           {`Switch to ${theme === "dark" ? "light" : "dark"} look`}
         </button>
       </header>
-      <section className="schedule" aria-label="Schedule">
-        {schedule.map((session) => (
-          <article key={`${session.time}-${session.title}`} className="session">
-            <time className="session-time">{session.time}</time>
-            <div className="session-body">
-              <h2 className="session-title">
-                <button
-                  type="button"
-                  className="session-open"
-                  onClick={(event) => {
-                    opener.current = event.currentTarget;
-                    setOpen(session);
-                  }}
-                >
-                  {session.title}
-                </button>
-              </h2>
-              <span className="chip">{session.track}</span>
-              {session.speakers && <p className="muted">{session.speakers}</p>}
-            </div>
-          </article>
-        ))}
-      </section>
+      <Schedule
+        sessions={schedule}
+        tracks={tracks}
+        onOpen={(session, button) => {
+          opener.current = button;
+          setOpen(session);
+        }}
+      />
       {open && <SessionDetail session={open} onClose={close} />}
     </main>
   );

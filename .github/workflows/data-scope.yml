@@ -2,7 +2,8 @@ name: data-scope
 
 on:
   pull_request_target:
-    types: [opened, synchronize, reopened]
+    types: [opened, synchronize, reopened, edited]
+    branches: [main]
 
 permissions:
   contents: read
@@ -23,6 +24,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
           HEAD_REF: ${{ github.head_ref }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: node scripts/data-scope.mjs

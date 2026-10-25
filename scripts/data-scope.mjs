@@ -4,14 +4,23 @@ const DATA_FILES = new Map([
   ["agent-trains", "public/data/trains.json"],
   ["agent-lunch", "public/data/lunch.json"],
 ]);
+const BASE_BRANCH = "main";
 const ACCEPTED_STATUSES = ["modified", "added"];
+const COMMIT_SHA = /^[0-9a-f]{40}$/;
 const GIT_MODES = new Map([
   ["100644", "file"],
   ["100755", "executable"],
   ["120000", "symlink"],
   ["160000", "submodule"],
 ]);
-const REQUIRED_ENV = ["GITHUB_REPOSITORY", "GITHUB_TOKEN", "HEAD_REF", "PR_NUMBER", "HEAD_SHA"];
+const REQUIRED_ENV = [
+  "GITHUB_REPOSITORY",
+  "GITHUB_TOKEN",
+  "HEAD_REF",
+  "HEAD_SHA",
+  "BASE_REF",
+  "BASE_SHA",
+];
 
 const fail = (reason) => {
   return { ok: false, reason };
@@ -37,10 +46,13 @@ const checkFile = (headRef, path, file, contentType) => {
   return { ok: true, path };
 };
 
-export const checkDataPr = (headRef, files, contentType) => {
+export const checkDataPr = (headRef, baseRef, files, contentType) => {
   const path = dataFileFor(headRef);
   if (path === undefined) {
     return fail(`unknown data branch ${headRef}: only agent-trains and agent-lunch publish data`);
+  }
+  if (baseRef !== BASE_BRANCH) {
+    return fail(`${headRef} must merge into ${BASE_BRANCH}, it targets ${baseRef || "nothing"}`);
   }
   if (files.length !== 1) {
     const names = files.map((file) => file.filename).join(", ") || "nothing";
@@ -63,15 +75,10 @@ const githubGet = async (url, token) => {
   return response;
 };
 
-const nextPage = (link) => {
-  return link?.match(/<([^>]+)>;\s*rel="next"/)?.[1];
-};
-
-const pullFiles = async (url, token, collected = []) => {
-  const response = await githubGet(url, token);
-  const files = [...collected, ...(await response.json())];
-  const next = nextPage(response.headers.get("link"));
-  return next === undefined ? files : pullFiles(next, token, files);
+const changedFiles = async (repoUrl, baseSha, headSha, token) => {
+  const response = await githubGet(`${repoUrl}/compare/${baseSha}...${headSha}`, token);
+  const comparison = await response.json();
+  return comparison.files ?? [];
 };
 
 const contentTypeAt = async (repoUrl, path, sha, token) => {
@@ -89,17 +96,29 @@ const readEnv = (env) => {
   if (missing.length > 0) {
     throw new Error(`missing environment: ${missing.join(", ")}`);
   }
+  const shas = [env.HEAD_SHA, env.BASE_SHA];
+  if (!shas.every((sha) => COMMIT_SHA.test(sha))) {
+    throw new Error("HEAD_SHA and BASE_SHA must be full commit hashes");
+  }
   return Object.fromEntries(REQUIRED_ENV.map((name) => [name, env[name]]));
 };
 
 const run = async (env) => {
-  const { GITHUB_REPOSITORY, GITHUB_TOKEN, HEAD_REF, PR_NUMBER, HEAD_SHA } = readEnv(env);
+  const { GITHUB_REPOSITORY, GITHUB_TOKEN, HEAD_REF, HEAD_SHA, BASE_REF, BASE_SHA } = readEnv(env);
   const repoUrl = `${env.GITHUB_API_URL ?? "https://api.github.com"}/repos/${GITHUB_REPOSITORY}`;
-  const files = await pullFiles(`${repoUrl}/pulls/${PR_NUMBER}/files?per_page=100`, GITHUB_TOKEN);
+  const files = await changedFiles(repoUrl, BASE_SHA, HEAD_SHA, GITHUB_TOKEN);
   const path = dataFileFor(HEAD_REF);
   const contentType =
     path === undefined ? "missing" : await contentTypeAt(repoUrl, path, HEAD_SHA, GITHUB_TOKEN);
-  return checkDataPr(HEAD_REF, files, contentType);
+  return checkDataPr(HEAD_REF, BASE_REF, files, contentType);
+};
+
+const singleLine = (text) => {
+  return text.replace(/[\r\n]+/g, " ");
+};
+
+export const report = (result) => {
+  return result.ok ? `ok ${result.path}` : singleLine(result.reason);
 };
 
 const isEntryPoint = () => {
@@ -109,14 +128,11 @@ const isEntryPoint = () => {
 if (isEntryPoint()) {
   run(process.env)
     .then((result) => {
-      if (!result.ok) {
-        console.log(result.reason);
-        process.exit(1);
-      }
-      console.log(`ok ${result.path}`);
+      console.log(report(result));
+      process.exitCode = result.ok ? 0 : 1;
     })
     .catch((error) => {
-      console.log(`data-scope could not run: ${error.message}`);
-      process.exit(1);
+      console.log(singleLine(`data-scope could not run: ${error.message}`));
+      process.exitCode = 1;
     });
 }

@@ -39,6 +39,7 @@ const SYDNEY_TIME = new Intl.DateTimeFormat("en-AU", {
   timeZone: "Australia/Sydney",
   hour: "2-digit",
   minute: "2-digit",
+  hourCycle: "h23",
   timeZoneName: "short",
 });
 
@@ -185,5 +186,6 @@ export const loadFeeds = async (
 };
 
 export const formatUpdated = (iso: string): string => {
-  return SYDNEY_TIME.format(new Date(iso));
+  const time = new Date(iso);
+  return Number.isFinite(time.getTime()) ? SYDNEY_TIME.format(time) : iso;
 };

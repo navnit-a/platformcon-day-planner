@@ -181,3 +181,12 @@ test("loadFeeds reports a file that is not JSON", async () => {
 test("formatUpdated names the Sydney time zone", () => {
   expect(formatUpdated("2026-10-28T00:32:00Z")).toMatch(/AEDT/);
 });
+
+test("formatUpdated renders 24-hour time", () => {
+  expect(formatUpdated("2026-10-28T00:32:00Z")).toBe("11:32 AEDT");
+  expect(formatUpdated("2026-10-28T03:05:00Z")).toBe("14:05 AEDT");
+});
+
+test("formatUpdated returns a time it cannot read unchanged", () => {
+  expect(formatUpdated("soon")).toBe("soon");
+});

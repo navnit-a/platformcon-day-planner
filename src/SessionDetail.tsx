@@ -42,10 +42,6 @@ export default function SessionDetail({ session, tint = 0, onClose }: Props) {
             <dt>Starts</dt>
             <dd className="detail-time">{session.time}</dd>
           </div>
-          <div className="fact">
-            <dt>Ends</dt>
-            <dd>{TBC}</dd>
-          </div>
           <div className="fact fact-wide">
             <dt>Room</dt>
             <dd className="detail-room">

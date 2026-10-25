@@ -56,3 +56,18 @@ test("the view switch is reachable by keyboard and returns to the schedule", asy
   await userEvent.keyboard("{Enter}");
   expect(screen.getByRole("region", { name: "Schedule" })).toBeInTheDocument();
 });
+
+test("Tab moves through the room sessions in order and Shift+Tab leaves back to the switch", async () => {
+  await openRooms();
+  const roomsButton = screen.getByRole("button", { name: "Rooms" });
+  roomsButton.focus();
+  await userEvent.tab();
+  const group = screen.getByRole("group", { name: "Main Stage" });
+  const buttons = within(group).getAllByRole("button");
+  expect(buttons[0]).toHaveFocus();
+  await userEvent.tab();
+  expect(buttons[1]).toHaveFocus();
+  await userEvent.tab({ shift: true });
+  await userEvent.tab({ shift: true });
+  expect(roomsButton).toHaveFocus();
+});

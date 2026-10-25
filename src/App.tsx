@@ -1,8 +1,18 @@
-import { loadSchedule } from "./schedule";
+import { useRef, useState } from "react";
+import { loadSchedule, type Session } from "./schedule";
+import SessionDetail from "./SessionDetail";
 
 const schedule = loadSchedule();
 
 export default function App() {
+  const [open, setOpen] = useState<Session | null>(null);
+  const opener = useRef<HTMLButtonElement | null>(null);
+
+  const close = () => {
+    setOpen(null);
+    opener.current?.focus();
+  };
+
   return (
     <main className="page">
       <header className="page-header">
@@ -17,13 +27,25 @@ export default function App() {
           <article key={`${session.time}-${session.title}`} className="session">
             <time className="session-time">{session.time}</time>
             <div className="session-body">
-              <h2 className="session-title">{session.title}</h2>
+              <h2 className="session-title">
+                <button
+                  type="button"
+                  className="session-open"
+                  onClick={(event) => {
+                    opener.current = event.currentTarget;
+                    setOpen(session);
+                  }}
+                >
+                  {session.title}
+                </button>
+              </h2>
               <span className="chip">{session.track}</span>
               {session.speakers && <p className="muted">{session.speakers}</p>}
             </div>
           </article>
         ))}
       </section>
+      {open && <SessionDetail session={open} onClose={close} />}
     </main>
   );
 }

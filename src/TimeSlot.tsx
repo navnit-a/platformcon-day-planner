@@ -1,6 +1,7 @@
 import { useId } from "react";
 import SessionCard from "./SessionCard";
 import type { Session } from "./sessions";
+import { sessionId } from "./starred";
 import type { Slot } from "./slots";
 import { trackTint } from "./tints";
 
@@ -8,10 +9,12 @@ type Props = {
   slot: Slot;
   tracks: string[];
   featured: Session | null;
+  starred: Set<string>;
+  onToggle: (id: string) => void;
   onOpen: (session: Session, opener: HTMLButtonElement) => void;
 };
 
-export default function TimeSlot({ slot, tracks, featured, onOpen }: Props) {
+export default function TimeSlot({ slot, tracks, featured, starred, onToggle, onOpen }: Props) {
   const headingId = useId();
   return (
     <div className="slot" role="group" aria-labelledby={headingId}>
@@ -25,6 +28,8 @@ export default function TimeSlot({ slot, tracks, featured, onOpen }: Props) {
             session={session}
             tint={trackTint(session.track, tracks)}
             featured={session === featured}
+            starred={starred.has(sessionId(session))}
+            onToggle={() => onToggle(sessionId(session))}
             onOpen={onOpen}
           />
         ))}

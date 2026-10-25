@@ -43,7 +43,16 @@ test("choosing a different track replaces the previous one", async () => {
 });
 
 test("says so when no sessions match the chosen track", async () => {
-  render(<Schedule sessions={[]} tracks={["Lightning Talks"]} onOpen={() => {}} />);
+  render(
+    <Schedule
+      sessions={[]}
+      tracks={["Lightning Talks"]}
+      view="schedule"
+      starred={new Set()}
+      onToggle={() => {}}
+      onOpen={() => {}}
+    />,
+  );
   await userEvent.click(screen.getByRole("button", { name: "Lightning Talks" }));
   expect(screen.getByText("No sessions in this track.")).toBeInTheDocument();
   expect(screen.queryByRole("article")).not.toBeInTheDocument();

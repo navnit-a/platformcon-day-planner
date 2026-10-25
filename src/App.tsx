@@ -6,6 +6,7 @@ import Rooms from "./Rooms";
 import Schedule from "./Schedule";
 import SessionDetail from "./SessionDetail";
 import { loadSchedule, type Session } from "./sessions";
+import { sessionId, useStarred } from "./starred";
 import { dayStats } from "./stats";
 import { applyTheme, initialTheme, saveTheme, type Theme } from "./theme";
 import { trackTint } from "./tints";
@@ -18,6 +19,9 @@ const stats = dayStats(schedule);
 export default function App() {
   const [open, setOpen] = useState<Session | null>(null);
   const [view, setView] = useState<View>("schedule");
+  const { starred, toggle } = useStarred();
+  const shown =
+    view === "agenda" ? schedule.filter((session) => starred.has(sessionId(session))) : schedule;
   const [theme, setTheme] = useState<Theme>(initialTheme);
   const opener = useRef<HTMLButtonElement | null>(null);
 
@@ -46,11 +50,18 @@ export default function App() {
       <Hero stats={stats} theme={theme} onToggleTheme={toggleTheme} />
       <main>
         <Glance sessions={schedule} tracks={tracks} />
-        <ViewSwitch view={view} onChoose={setView} />
-        {view === "schedule" ? (
-          <Schedule sessions={schedule} tracks={tracks} onOpen={onOpen} />
-        ) : (
+        <ViewSwitch view={view} agendaCount={starred.size} onChoose={setView} />
+        {view === "rooms" ? (
           <Rooms sessions={schedule} tracks={tracks} onOpen={onOpen} />
+        ) : (
+          <Schedule
+            sessions={shown}
+            tracks={tracks}
+            view={view}
+            starred={starred}
+            onToggle={toggle}
+            onOpen={onOpen}
+          />
         )}
       </main>
       <Footer />

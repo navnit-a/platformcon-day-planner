@@ -1,19 +1,20 @@
-export type View = "schedule" | "rooms";
+export type View = "schedule" | "agenda" | "rooms";
 
 type Props = {
   view: View;
+  agendaCount: number;
   onChoose: (view: View) => void;
 };
 
-const VIEWS: { view: View; label: string }[] = [
-  { view: "schedule", label: "Schedule" },
-  { view: "rooms", label: "Rooms" },
-];
-
-export default function ViewSwitch({ view, onChoose }: Props) {
+export default function ViewSwitch({ view, agendaCount, onChoose }: Props) {
+  const views: { view: View; label: string }[] = [
+    { view: "schedule", label: "Schedule" },
+    { view: "agenda", label: `My agenda (${agendaCount})` },
+    { view: "rooms", label: "Rooms" },
+  ];
   return (
     <div className="view-switch shell rise rise-5" role="group" aria-label="View">
-      {VIEWS.map((item) => (
+      {views.map((item) => (
         <button
           key={item.view}
           type="button"

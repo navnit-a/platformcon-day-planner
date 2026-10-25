@@ -2,7 +2,12 @@ import { render, screen, within } from "@testing-library/react";
 import { expect, test } from "vitest";
 import Schedule from "./Schedule";
 
-const session = (time: string, title: string) => ({ time, title, track: "Main Stage", speakers: "" });
+const session = (time: string, title: string) => ({
+  time,
+  title,
+  track: "Main Stage",
+  speakers: "",
+});
 
 const sessions = [
   session("09:00", "Opening"),
@@ -12,7 +17,16 @@ const sessions = [
 ];
 
 test("shows sessions that start together under one time heading, in time order", () => {
-  render(<Schedule sessions={sessions} tracks={["Main Stage"]} onOpen={() => {}} />);
+  render(
+    <Schedule
+      sessions={sessions}
+      tracks={["Main Stage"]}
+      view="schedule"
+      starred={new Set()}
+      onToggle={() => {}}
+      onOpen={() => {}}
+    />,
+  );
   const times = screen
     .getAllByRole("heading", { name: /^\d\d:\d\d$/ })
     .map((heading) => heading.textContent);

@@ -1,12 +1,24 @@
-import { useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { loadSchedule, type Session } from "./schedule";
 import SessionDetail from "./SessionDetail";
+import { applyTheme, initialTheme, saveTheme, type Theme } from "./theme";
 
 const schedule = loadSchedule();
 
 export default function App() {
   const [open, setOpen] = useState<Session | null>(null);
+  const [theme, setTheme] = useState<Theme>(initialTheme);
   const opener = useRef<HTMLButtonElement | null>(null);
+
+  useLayoutEffect(() => {
+    applyTheme(theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    const next = theme === "dark" ? "light" : "dark";
+    saveTheme(next);
+    setTheme(next);
+  };
 
   const close = () => {
     setOpen(null);
@@ -21,6 +33,9 @@ export default function App() {
         <p className="muted">
           {schedule.length} {schedule.length === 1 ? "session" : "sessions"}
         </p>
+        <button type="button" className="pill theme-toggle" onClick={toggleTheme}>
+          {`Switch to ${theme === "dark" ? "light" : "dark"} look`}
+        </button>
       </header>
       <section className="schedule" aria-label="Schedule">
         {schedule.map((session) => (

@@ -11,7 +11,7 @@
   --accent-soft: #ddefec;
   --now: #f4a340;
   --danger: #b42318;
-  color-scheme: light dark;
+  color-scheme: light;
   font-family: "Poppins", sans-serif;
   font-size: 14px;
   line-height: 1.6;
@@ -19,18 +19,17 @@
   background: var(--paper);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper: #0e1a19;
-    --surface: #152423;
-    --surface-muted: #1c2e2d;
-    --hairline: rgba(232, 238, 236, 0.1);
-    --ink: #e8eeec;
-    --text: #e8eeec;
-    --text-muted: rgba(232, 238, 236, 0.64);
-    --accent: #3fb8ac;
-    --accent-soft: rgba(63, 184, 172, 0.16);
-  }
+:root[data-theme="dark"] {
+  --paper: #0e1a19;
+  --surface: #152423;
+  --surface-muted: #1c2e2d;
+  --hairline: rgba(232, 238, 236, 0.1);
+  --ink: #e8eeec;
+  --text: #e8eeec;
+  --text-muted: rgba(232, 238, 236, 0.64);
+  --accent: #3fb8ac;
+  --accent-soft: rgba(63, 184, 172, 0.16);
+  color-scheme: dark;
 }
 
 * {
@@ -54,6 +53,15 @@ body {
   line-height: 1.25;
   font-weight: 500;
   letter-spacing: -0.5px;
+}
+
+.theme-toggle {
+  margin-top: 16px;
+  transition: opacity 150ms ease-out;
+}
+
+.theme-toggle:hover {
+  opacity: 0.85;
 }
 
 .muted {

@@ -1,19 +1,20 @@
 import { useEffect, useRef } from "react";
-import type { Session } from "./schedule";
+import { AvatarStack } from "./Avatar";
+import type { Session } from "./sessions";
+import { speakerEntries, speakerPeople } from "./speakers";
+import type { Tint } from "./tints";
 
 const TBC = "To be confirmed";
 
 type Props = {
   session: Session;
+  tint?: Tint;
   onClose: () => void;
 };
 
-export default function SessionDetail({ session, onClose }: Props) {
+export default function SessionDetail({ session, tint = 0, onClose }: Props) {
   const closeRef = useRef<HTMLButtonElement>(null);
-  const speakers = session.speakers
-    .split(";")
-    .map((name) => name.trim())
-    .filter(Boolean);
+  const speakers = speakerEntries(session.speakers);
 
   useEffect(() => {
     closeRef.current?.focus();
@@ -26,29 +27,47 @@ export default function SessionDetail({ session, onClose }: Props) {
 
   return (
     <div className="detail-backdrop">
-      <div className="detail" role="dialog" aria-modal="true" aria-labelledby="detail-title">
+      <div
+        className="detail"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="detail-title"
+        data-tint={tint}
+      >
         <h2 id="detail-title" className="detail-title">
           {session.title}
         </h2>
         <dl className="detail-facts">
-          <dt>Starts</dt>
-          <dd className="detail-time">{session.time}</dd>
-          <dt>Room</dt>
-          <dd>{session.track || TBC}</dd>
-          <dt>Speakers</dt>
-          <dd>
-            {speakers.length === 0 ? (
-              TBC
-            ) : (
-              <ul className="detail-speakers">
-                {speakers.map((name) => (
-                  <li key={name}>{name}</li>
-                ))}
-              </ul>
-            )}
-          </dd>
+          <div className="fact">
+            <dt>Starts</dt>
+            <dd className="detail-time">{session.time}</dd>
+          </div>
+          <div className="fact fact-wide">
+            <dt>Room</dt>
+            <dd className="detail-room">
+              {session.track && <span className="dot" aria-hidden="true" />}
+              {session.track || TBC}
+            </dd>
+          </div>
+          <div className="fact fact-wide">
+            <dt>Speakers</dt>
+            <dd>
+              {speakers.length === 0 ? (
+                TBC
+              ) : (
+                <ul className="detail-speakers">
+                  {speakers.map((entry) => (
+                    <li key={entry} className="detail-speaker">
+                      <AvatarStack names={speakerPeople(entry)} />
+                      <span>{entry}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </dd>
+          </div>
         </dl>
-        <button ref={closeRef} type="button" className="pill" onClick={onClose}>
+        <button ref={closeRef} type="button" className="pill detail-close" onClick={onClose}>
           Close
         </button>
       </div>

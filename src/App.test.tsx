@@ -23,3 +23,11 @@ test("lists every published session in time order", () => {
   expect(times).toHaveLength(22);
   expect([...times].sort()).toEqual(times);
 });
+
+test("shows the number of sessions in the header under the date", () => {
+  render(<App />);
+  const header = screen.getByRole("banner");
+  expect(within(header).getByText("22 sessions")).toBeInTheDocument();
+  const text = header.textContent ?? "";
+  expect(text.indexOf("Wednesday 28 October 2026")).toBeLessThan(text.indexOf("22 sessions"));
+});

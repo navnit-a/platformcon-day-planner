@@ -8,6 +8,9 @@ export default function App() {
       <header className="page-header">
         <h1>PlatformCon Day Planner</h1>
         <p className="muted">Wednesday 28 October 2026, Sydney Masonic Centre</p>
+        <p className="muted">
+          {schedule.length} {schedule.length === 1 ? "session" : "sessions"}
+        </p>
       </header>
       <section className="schedule" aria-label="Schedule">
         {schedule.map((session) => (

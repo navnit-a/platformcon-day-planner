@@ -16,7 +16,7 @@ test("tapping a session opens its title, speakers, room and time together", asyn
   expect(within(dialog).getByText("Main Stage")).toBeInTheDocument();
   expect(within(dialog).getByText("09:30")).toBeInTheDocument();
   expect(within(dialog).getByText("Starts")).toBeInTheDocument();
-  expect(within(dialog).getByText("Ends")).toBeInTheDocument();
+  expect(within(dialog).queryByText("Ends")).not.toBeInTheDocument();
 });
 
 test("lists every speaker of a multi-speaker session by name", async () => {
@@ -47,7 +47,7 @@ test("closes with the Escape key", async () => {
   expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
 });
 
-test("reads To be confirmed for a missing room, speaker and end time", () => {
+test("reads To be confirmed for a missing room and speaker", () => {
   render(
     <SessionDetail
       session={{ time: "16:30", track: "", title: "Booth crawl", speakers: "" }}
@@ -55,5 +55,5 @@ test("reads To be confirmed for a missing room, speaker and end time", () => {
     />,
   );
   const dialog = screen.getByRole("dialog", { name: "Booth crawl" });
-  expect(within(dialog).getAllByText("To be confirmed")).toHaveLength(3);
+  expect(within(dialog).getAllByText("To be confirmed")).toHaveLength(2);
 });

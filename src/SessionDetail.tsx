@@ -33,8 +33,6 @@ export default function SessionDetail({ session, onClose }: Props) {
         <dl className="detail-facts">
           <dt>Starts</dt>
           <dd className="detail-time">{session.time}</dd>
-          <dt>Ends</dt>
-          <dd>{TBC}</dd>
           <dt>Room</dt>
           <dd>{session.track || TBC}</dd>
           <dt>Speakers</dt>

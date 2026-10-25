@@ -1,0 +1,37 @@
+{
+  "updated": "2026-10-26T06:15:00+11:00",
+  "place": "Sydney Masonic Centre",
+  "picks": [
+    {
+      "name": "Mamak",
+      "kind": "restaurant",
+      "cuisine": "malaysian",
+      "distance_m": 54,
+      "street": "Goulburn Street",
+      "lat": -33.8777175,
+      "lon": 151.2042284,
+      "reason": "roti and curry, a Sydney favourite"
+    },
+    {
+      "name": "Hansang Haymarket",
+      "kind": "restaurant",
+      "cuisine": "korean",
+      "distance_m": 53,
+      "street": "Goulburn Street",
+      "lat": -33.8778186,
+      "lon": 151.2053062,
+      "reason": "a hot Korean sit-down lunch"
+    },
+    {
+      "name": "The Moment Bubble Tea",
+      "kind": "cafe",
+      "cuisine": "bubble_tea",
+      "distance_m": 23,
+      "street": "Sussex Street",
+      "lat": -33.8773915,
+      "lon": 151.2047847,
+      "reason": "closest, a quick drink between talks"
+    }
+  ],
+  "attribution": "Data: OpenStreetMap contributors, ODbL"
+}

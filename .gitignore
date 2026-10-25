@@ -24,6 +24,8 @@ dist-ssr
 *.sw?
 
 coverage
+test-results
+playwright-report
 *.md
 !README.md
 .claude/

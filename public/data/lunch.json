@@ -1,0 +1,37 @@
+{
+  "updated": "2026-10-26T06:46:00+11:00",
+  "place": "Sydney Masonic Centre",
+  "picks": [
+    {
+      "name": "Storehouse",
+      "kind": "restaurant",
+      "cuisine": "",
+      "distance_m": 71,
+      "street": "Goulburn Street",
+      "lat": -33.8786167,
+      "lon": 151.2094564,
+      "reason": "the closest sit-down lunch"
+    },
+    {
+      "name": "caffe tiamo",
+      "kind": "cafe",
+      "cuisine": "",
+      "distance_m": 135,
+      "street": "",
+      "lat": -33.8774081,
+      "lon": 151.2077934,
+      "reason": "coffee and something light between talks"
+    },
+    {
+      "name": "Masala Kitchen",
+      "kind": "restaurant",
+      "cuisine": "",
+      "distance_m": 148,
+      "street": "",
+      "lat": -33.8777188,
+      "lon": 151.2074669,
+      "reason": "another sit-down meal, two minutes west"
+    }
+  ],
+  "attribution": "Data: OpenStreetMap contributors, ODbL"
+}

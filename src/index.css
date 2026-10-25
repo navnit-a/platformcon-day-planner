@@ -448,6 +448,59 @@ button {
   transform: translateX(-50%);
 }
 
+.venue-map {
+  position: relative;
+  z-index: 0;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--hairline);
+  border-radius: 20px;
+  background: var(--surface);
+}
+
+.venue-map-canvas {
+  height: 220px;
+}
+
+.venue-map .venue-map-canvas {
+  background: var(--surface-muted);
+}
+
+.venue-map-credit {
+  padding: 8px 14px;
+  border-top: 1px solid var(--hairline);
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.venue-map .leaflet-control-zoom.leaflet-bar a {
+  width: 44px;
+  height: 44px;
+  line-height: 44px;
+}
+
+.venue-pin {
+  stroke: var(--surface);
+}
+
+.venue-pin-venue {
+  fill: var(--accent);
+}
+
+.venue-pin-lunch {
+  fill: var(--track-5);
+}
+
+.venue-map[data-tint] .venue-pin-lunch {
+  fill: var(--tint);
+}
+
+@media (min-width: 720px) {
+  .venue-map-canvas {
+    height: 320px;
+  }
+}
+
 .filter-bar {
   position: sticky;
   top: 0;

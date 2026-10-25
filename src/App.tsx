@@ -1,7 +1,8 @@
-import { useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { loadSchedule, type Session } from "./schedule";
 import SessionDetail from "./SessionDetail";
 import { sessionId, useStarred } from "./starred";
+import { applyTheme, initialTheme, saveTheme, type Theme } from "./theme";
 
 const schedule = loadSchedule();
 
@@ -11,7 +12,18 @@ export default function App() {
   const { starred, toggle } = useStarred();
   const shown =
     view === "agenda" ? schedule.filter((session) => starred.has(sessionId(session))) : schedule;
+  const [theme, setTheme] = useState<Theme>(initialTheme);
   const opener = useRef<HTMLButtonElement | null>(null);
+
+  useLayoutEffect(() => {
+    applyTheme(theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    const next = theme === "dark" ? "light" : "dark";
+    saveTheme(next);
+    setTheme(next);
+  };
 
   const close = () => {
     setOpen(null);
@@ -26,6 +38,9 @@ export default function App() {
         <p className="muted">
           {schedule.length} {schedule.length === 1 ? "session" : "sessions"}
         </p>
+        <button type="button" className="pill theme-toggle" onClick={toggleTheme}>
+          {`Switch to ${theme === "dark" ? "light" : "dark"} look`}
+        </button>
       </header>
       <nav className="views" aria-label="Views">
         <button

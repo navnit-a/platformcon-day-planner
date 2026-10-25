@@ -1437,3 +1437,89 @@ button {
 .lunch-distance {
   font-variant-numeric: tabular-nums;
 }
+
+.getting {
+  margin-top: 16px;
+}
+
+.getting-card {
+  padding: 16px;
+  border: 1px solid var(--hairline);
+  border-radius: 16px;
+  background: var(--surface);
+  display: grid;
+  gap: 12px;
+}
+
+.getting-title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.stations,
+.disruptions {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.station {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 12px;
+  padding: 12px;
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+}
+
+.station-name {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.station-walk {
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+
+.station-lines {
+  grid-column: 1 / -1;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.disruption {
+  display: grid;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.disruption-line {
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.disruption-summary,
+.getting-note {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text);
+}
+
+.getting-meta {
+  margin: 0;
+  display: grid;
+  gap: 4px;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.getting-time {
+  font-variant-numeric: tabular-nums;
+}

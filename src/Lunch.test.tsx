@@ -65,7 +65,7 @@ test.each([
 test("the rest of the page works when lunch data is missing", async () => {
   respond({}, false);
   render(<App />);
-  await waitFor(() => expect(screen.getByText(/not available yet/i)).toBeInTheDocument());
+  await waitFor(() => expect(screen.getByText(/lunch spots are not available yet/i)).toBeInTheDocument());
   expect(screen.getAllByRole("article").length).toBeGreaterThan(0);
 });
 

@@ -53,11 +53,23 @@ test("VenueMap marks the venue and lunch pins with their own classes", () => {
   );
 });
 
+const tooltipOf = (index: number): HTMLElement => {
+  return vi.mocked(L.circleMarker).mock.results[index].value.bindTooltip.mock.calls[0][0];
+};
+
 test("VenueMap names each pin in its tooltip", () => {
   render(<VenueMap pins={PINS} />);
-  const markers = vi.mocked(L.circleMarker).mock.results.map((result) => result.value);
-  expect(markers[0].bindTooltip).toHaveBeenCalledWith("Venue");
-  expect(markers[1].bindTooltip).toHaveBeenCalledWith("Cafe");
+  expect(tooltipOf(0).textContent).toBe("Venue");
+  expect(tooltipOf(1).textContent).toBe("Cafe");
+});
+
+test("VenueMap shows a pin name with markup as plain text", () => {
+  const name = "<img src=x onerror=alert(1)>";
+  render(<VenueMap pins={[{ name, lat: 1, lon: 2, kind: "lunch" }]} />);
+  const tooltip = tooltipOf(0);
+  expect(tooltip).toBeInstanceOf(HTMLElement);
+  expect(tooltip.textContent).toBe(name);
+  expect(tooltip.querySelector("img")).toBeNull();
 });
 
 test("VenueMap lets the page scroll past it and leaves attribution to the caption", () => {

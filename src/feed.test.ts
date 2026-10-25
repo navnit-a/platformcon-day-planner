@@ -131,6 +131,16 @@ test("parseLunch rejects a pick that is not an object", () => {
   expect(() => parseLunch({ ...lunch, picks: [pick("A"), "B", pick("C")] })).toThrow(/picks\[1\]/);
 });
 
+test("parseLunch rejects a pick name with markup in it", () => {
+  const picks = [pick("A"), pick("<img src=x onerror=alert(1)>"), pick("C")];
+  expect(() => parseLunch({ ...lunch, picks })).toThrow(/picks\[1\]\.name/);
+});
+
+test("parseLunch rejects a pick name with a stray angle bracket", () => {
+  const picks = [pick("A"), pick("B"), pick("Fish > chips")];
+  expect(() => parseLunch({ ...lunch, picks })).toThrow(/picks\[2\]\.name/);
+});
+
 test("parseLunch rejects an updated time that is not a date", () => {
   expect(() => parseLunch({ ...lunch, updated: "lunchtime" })).toThrow(/updated/);
 });

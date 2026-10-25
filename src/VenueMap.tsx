@@ -21,6 +21,12 @@ const position = (pin: MapPin): L.LatLngTuple => {
   return [pin.lat, pin.lon];
 };
 
+const textLabel = (text: string): HTMLElement => {
+  const label = document.createElement("span");
+  label.textContent = text;
+  return label;
+};
+
 const addPin = (map: L.Map, pin: MapPin) => {
   L.circleMarker(position(pin), {
     className: `venue-pin venue-pin-${pin.kind}`,
@@ -28,7 +34,7 @@ const addPin = (map: L.Map, pin: MapPin) => {
     weight: PIN_WEIGHT,
     fillOpacity: 1,
   })
-    .bindTooltip(pin.name)
+    .bindTooltip(textLabel(pin.name))
     .addTo(map);
 };
 

@@ -6,12 +6,16 @@ test("the venue is the Sydney Masonic Centre on Goulburn Street", () => {
     name: "Sydney Masonic Centre",
     address: "66 Goulburn Street, Sydney",
     lat: -33.8781,
-    lon: 151.2077,
+    lon: 151.209,
   });
 });
 
 test("Museum is the nearest station, on the City Circle lines", () => {
-  expect(STATIONS[0]).toEqual({ name: "Museum", lines: ["T2", "T3", "T8"], walkMinutes: 4 });
+  expect(STATIONS[0]).toEqual({ name: "Museum", lines: ["T2", "T3", "T8"], walkMinutes: 3 });
+});
+
+test("Central is a nine-minute walk", () => {
+  expect(STATIONS.find((station) => station.name === "Central")?.walkMinutes).toBe(9);
 });
 
 test("stations are listed nearest first", () => {

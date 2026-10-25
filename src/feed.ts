@@ -34,6 +34,7 @@ type Fields = Record<string, unknown>;
 
 const TRAIN_STATUSES = ["normal", "disruptions"] as const;
 const LUNCH_PICKS = 3;
+const MARKUP = /[<>]/;
 
 const SYDNEY_TIME = new Intl.DateTimeFormat("en-AU", {
   timeZone: "Australia/Sydney",
@@ -49,6 +50,10 @@ const fail = (message: string): never => {
 
 const isText = (value: unknown): value is string => {
   return typeof value === "string";
+};
+
+const isPlainName = (value: unknown): value is string => {
+  return isText(value) && !MARKUP.test(value);
 };
 
 const isWholeCount = (value: unknown): value is number => {
@@ -109,7 +114,7 @@ const parseLine = (value: unknown, where: string): TrainLine => {
 const parsePick = (value: unknown, where: string): LunchPick => {
   const fields = record(value, where);
   return {
-    name: field(fields, "name", where, isText, "a string"),
+    name: field(fields, "name", where, isPlainName, "a string without < or >"),
     kind: field(fields, "kind", where, isText, "a string"),
     cuisine: field(fields, "cuisine", where, isText, "a string"),
     distance_m: field(fields, "distance_m", where, isWholeCount, "a whole number of metres"),
